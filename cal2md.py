@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+
 import calendar
 import datetime
+import os
 import sys
 
-texto_mes = {
+month_pt = { # Months in Portuguese
     1: 'Janeiro',
     2: 'Fevereiro',
     3: 'Março',
@@ -17,37 +20,80 @@ texto_mes = {
     12: 'Dezembro'
 }
 
-def linha2md(texto: str) -> str:
-    lista = list(f'{texto:<20}')
-    lista.insert(0, '|')
-    lista.append('')
-    for i in range(3, 22, 3):
-        lista[i] = ' |'
-    return ''.join(lista)
+weekdays_pt = {
+    0: ('Seg', 'Segunda-feira'),
+    1: ('Ter', 'Terça-feira'),
+    2: ('Qua', 'Quarta-feira'),
+    3: ('Qui', 'Quinta-feira'),
+    4: ('Sex', 'Sexta-feira'),
+    5: ('Sáb', 'Sábado'),
+    6: ('Dom', 'Domingo'),
+}
 
-def principal():
+def parse_args() -> (int, int):
     num_args = len(sys.argv)
     if num_args == 1:
-        num_mes = datetime.datetime.now().month
-        ano = datetime.datetime.now().year
+        num_month = datetime.datetime.now().month
+        year = datetime.datetime.now().year
     elif num_args == 2:
-        num_mes = int(sys.argv[1])
-        ano = datetime.datetime.now().year
+        num_month = int(sys.argv[1])
+        year = datetime.datetime.now().year
     elif num_args == 3:
-        num_mes = int(sys.argv[1])
-        ano = int(sys.argv[2])
+        num_month = int(sys.argv[1])
+        year = int(sys.argv[2])
+    else:
+        sys.exit(1)
 
-    calendario = calendar.TextCalendar(firstweekday=calendar.SUNDAY)
-    txt_mes = calendario.formatmonth(ano, num_mes).splitlines()
-    txt_md = [f'# {texto_mes[num_mes]}', '']
+    return year, num_month
 
-    mes_md = ['|Dom|Seg|Ter|Qua|Qui|Sex|Sáb|', '|---|---|---|---|---|---|---|']
+def make_dir_days(year, num_month, days):
+    for day in range(1, calendar.monthrange(year, num_month)[1]+1):
+        date_path = f'{year}/{num_month}/{day}'
+        date_pt = f'{weekdays_pt[days[day].weekday()][1]}, {day} de {month_pt[num_month]} de {year}'
+        os.makedirs(date_path, exist_ok=True)
+        with open(f'{date_path}/README.md', 'w') as dayfile:
+            dayfile.write(f''' # {date_pt}
 
-    for linha in txt_mes[2:8]:
-        mes_md.append(linha2md(linha))
+* [Manhã](#manha)
+* [Tarde](#tarde)
+* [Noite](#noite)
 
-    txt_md.extend(mes_md)
-    print('\n'.join(txt_md))
+<a name="manha">
+
+## Manhã
+
+## Tarde
+
+## Noite
+''')
+
+def month2md(num_month: int, month: list) -> str:
+    abr_wkd_pt = [v[0] for _,v in weekdays_pt.items()]
+    table_markup = 7*['---']
+    lines = [
+        '|'+('|'.join(abr_wkd_pt))+'|',
+        '|'+('|'.join(table_markup))+'|'
+        ]
+    for week in month:
+        week_line = [f'{date.day:>3}' if date.month==num_month else '   ' for date in week]
+        lines.append('|'+('|'.join(week_line))+'|')
+
+    return '\n'.join(lines)
+
+def main():
+    year, num_month = parse_args()
+    cal = calendar.TextCalendar(firstweekday=calendar.SUNDAY)
+    month = cal.monthdatescalendar (year, num_month)
+
+    days = {}
+    for week in month:
+        for date in week:
+            if date.month == num_month:
+                days[date.day] = date
+
+    make_dir_days(year, num_month, days)
+    md_month = month2md(num_month, month)
+    print(md_month)
 
 if __name__ == '__main__':
-    principal()
+    main()
