@@ -75,7 +75,7 @@ def month2md(num_month: int, month: list) -> str:
         '|'+('|'.join(table_markup))+'|'
         ]
     for week in month:
-        week_line = [f'{date.day:>3}' if date.month==num_month else '   ' for date in week]
+        week_line = [f'[{date.day:>3}]({date.day}/)' if date.month==num_month else '   ' for date in week]
         lines.append('|'+('|'.join(week_line))+'|')
 
     return '\n'.join(lines)
@@ -93,7 +93,8 @@ def main():
 
     make_dir_days(year, num_month, days)
     md_month = month2md(num_month, month)
-    print(md_month)
+    with open(f'{year}/{num_month}/README.md', 'w') as month_file:
+        month_file.write(md_month)
 
 if __name__ == '__main__':
     main()
