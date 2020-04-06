@@ -67,6 +67,11 @@ def make_dir_days(year, num_month, days):
 ## Noite
 ''')
 
+def year2md(year: int):
+    lines = [f'# Ano de {year}', '']
+    lines.extend([f'* [month_pt[{m}]]({m}/README.md)' for m in range(1, 13)])
+    return '\n'.join(lines)    
+
 def month2md(num_month: int, month: list) -> str:
     abr_wkd_pt = [v[0] for _,v in weekdays_pt.items()]
     table_markup = 7*['---']
@@ -92,9 +97,11 @@ def main():
                 days[date.day] = date
 
     make_dir_days(year, num_month, days)
-    md_month = month2md(num_month, month)
+    with open(f'{year}/README.md', 'w') as year_file:
+        year_file.write(year2md(year))    
+    
     with open(f'{year}/{num_month}/README.md', 'w') as month_file:
-        month_file.write(md_month)
+        month_file.write(month2md(num_month, month))
 
 if __name__ == '__main__':
     main()
