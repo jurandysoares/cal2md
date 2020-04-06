@@ -48,7 +48,7 @@ def parse_args() -> (int, int):
 
 def make_dir_days(year, num_month, days):
     for day in range(1, calendar.monthrange(year, num_month)[1]+1):
-        date_path = f'{year}/{num_month}/{day}'
+        date_path = f'{year}/{num_month:02d}/{day:02d}'
         date_pt = f'{weekdays_pt[days[day].weekday()][1]}, {day} de {month_pt[num_month]} de {year}'
         os.makedirs(date_path, exist_ok=True)
         with open(f'{date_path}/README.md', 'w') as dayfile:
@@ -100,7 +100,7 @@ def main():
     with open(f'{year}/README.md', 'w') as year_file:
         year_file.write(year2md(year))    
     
-    with open(f'{year}/{num_month}/README.md', 'w') as month_file:
+    with open(f'{year}/{num_month:02d}/README.md', 'w') as month_file:
         month_file.write(month2md(num_month, month))
 
 if __name__ == '__main__':
