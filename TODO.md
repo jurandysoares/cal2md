@@ -1,3 +1,3 @@
 # TODO
 
-* Make a cross-plataform *make_dir_days* function
+* Make a cross-platform *make_dir_days* function
