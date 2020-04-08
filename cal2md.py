@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+#import argparse
 import calendar
 import datetime
 import os
@@ -71,7 +72,7 @@ def make_dir_days(year, num_month, days):
 
 def year2md(year: int):
     lines = [f'# Ano de {year}', '']
-    lines.extend([f'* [{month_pt[m]}]({m}/README.md)' for m in range(1, 13)])
+    lines.extend([f'* [{month_pt[m]}]({m:02d}/README.md)' for m in range(1, 13)])
     return '\n'.join(lines)    
 
 def month2md(num_month: int, month: list) -> str:
@@ -88,6 +89,7 @@ def month2md(num_month: int, month: list) -> str:
     return '\n'.join(lines)
 
 def main():
+    #parser = argparse.ArgumentParser(description='Gera calendário em formato Markdown')
     year, num_month = parse_args()
     cal = calendar.TextCalendar(firstweekday=calendar.SUNDAY)
     month = cal.monthdatescalendar (year, num_month)
