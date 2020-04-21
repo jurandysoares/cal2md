@@ -76,10 +76,10 @@ def year2md(year: int):
     lines.extend([f'* [{month_pt[m]}]({m:02d}/README.md)' for m in range(1, 13)])
     return '\n'.join(lines)    
 
-def month2md(num_month: int, month: list) -> str:
+def month2md(num_month: int, month: list, year: int) -> str:
     abr_wkd_pt = [v[0] for _,v in weekdays_pt.items()]
     table_markup = 7*['---']
-    lines = [f'# Mês de {month_pt[num_month]}', '']
+    lines = [f'# {month_pt[num_month]} de {year}', '']
     lines.extend([
         '|'+('|'.join(abr_wkd_pt))+'|',
         '|'+('|'.join(table_markup))+'|'
@@ -111,7 +111,7 @@ def main():
     month_fname = f'{year}/{num_month:02d}/README.md'
     if not os.path.exists(month_fname):
         with open(month_fname, 'w') as month_file:
-            month_file.write(month2md(num_month, month))
+            month_file.write(month2md(num_month, month, year))
 
 if __name__ == '__main__':
     main()
