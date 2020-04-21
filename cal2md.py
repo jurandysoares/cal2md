@@ -78,12 +78,13 @@ def year2md(year: int):
 def month2md(num_month: int, month: list) -> str:
     abr_wkd_pt = [v[0] for _,v in weekdays_pt.items()]
     table_markup = 7*['---']
-    lines = [
+    lines = [f'# Mês de {month_pt[num_month]}', '']
+    lines.extend([
         '|'+('|'.join(abr_wkd_pt))+'|',
         '|'+('|'.join(table_markup))+'|'
-        ]
+        ])
     for week in month:
-        week_line = [f'[{date.day:>3}]({date.day}/)' if date.month==num_month else '   ' for date in week]
+        week_line = [f'[{date.day:>3}]({date.day:02d}/README.md)' if date.month==num_month else '   ' for date in week]
         lines.append('|'+('|'.join(week_line))+'|')
 
     return '\n'.join(lines)
