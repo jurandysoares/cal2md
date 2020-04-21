@@ -4,6 +4,7 @@
 import calendar
 import datetime
 import os
+from pathlib import Path, PurePath
 import sys
 
 month_pt = { # Months in Portuguese
@@ -55,7 +56,7 @@ def make_dir_days(year, num_month, days):
         day_fname = f'{date_path}/README.md'
         if not os.path.exists(day_fname): # Doesn't overwrite existing file
             with open(day_fname, 'w') as dayfile:
-                dayfile.write(f''' # {date_pt}
+                dayfile.write(f'''# {date_pt}
 
 * [Manhã](#manha)
 * [Tarde](#tarde)
