@@ -55,7 +55,7 @@ def make_dir_days(year, num_month, days):
         os.makedirs(date_path, exist_ok=True)
         day_fname = f'{date_path}/README.md'
         if not os.path.exists(day_fname): # Doesn't overwrite existing file
-            with open(day_fname, 'w') as dayfile:
+            with open(day_fname, 'w', encoding='utf-8') as dayfile:
                 dayfile.write(f'''# {date_pt}
 
 * [Manhã](#manha)
@@ -105,12 +105,12 @@ def main():
     make_dir_days(year, num_month, days)
     year_fname = f'{year}/README.md'
     if not os.path.exists(year_fname):
-        with open(year_fname, 'w') as year_file:
+        with open(year_fname, 'w', encoding='utf-8') as year_file:
             year_file.write(year2md(year))    
     
     month_fname = f'{year}/{num_month:02d}/README.md'
     if not os.path.exists(month_fname):
-        with open(month_fname, 'w') as month_file:
+        with open(month_fname, 'w', encoding='utf-8') as month_file:
             month_file.write(month2md(num_month, month))
 
 if __name__ == '__main__':
