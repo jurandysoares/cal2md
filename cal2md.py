@@ -61,10 +61,10 @@ def year2md(year: int, year_dir: pathlib.Path, index: str):
 
 ||||
 |---|---|---|
-|[Janeiro](01/{index})|[Fevereiro](02/{index})|[Março](03/{index})|
-|[Abril](04/{index})|[Maio](05/{index})|[Junho](06/{index})|
-|[Jullho](07/{index})|[Agosto](08/{index})|[Setembro](09/{index})|
-|[Outubro](10/{index})|[Novembro](11/{index})|[Dezembro](12/{index})|
+|[01-Janeiro](01-janeiro/{index})|[02-Fevereiro](02-fevereiro/{index})|[03-Março](03-março/{index})|
+|[04-Abril](04-abril/{index})|[05-Maio](05-maio/{index})|[06-Junho](06-junho/{index})|
+|[07-Julho](07-julho/{index})|[08-Agosto](08-agosto/{index})|[09-Setembro](09-setembro/{index})|
+|[10-Outubro](10-outubro/{index})|[11-Novembro](11-novembro/{index})|[12-Dezembro](12-dezembro/{index})|
     '''
     )
     # LIST => 
@@ -88,7 +88,7 @@ def day2md(date: datetime.datetime, month_dir: pathlib.Path, index: str):
 
 def month2md(year: int, month: int, year_dir: pathlib.Path, index: str):
     cal = calendar.Calendar(firstweekday=calendar.MONDAY)
-    month_dir = year_dir / f'{month:02d}'
+    month_dir = year_dir / f'{month:02d}-{month_pt[month].lower()}'
     month_dir.mkdir()
     month_index = month_dir / index
     month_header = f'# {month_pt[month]} de {year}'
