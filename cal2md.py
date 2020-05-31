@@ -38,7 +38,6 @@ MONTH_CAL_HEADER = '''
 
 DATE_BODY = '''
 
-
 * [Manhã](#manha)
 * [Tarde](#tarde)
 * [Noite](#noite)
